@@ -1,0 +1,13 @@
+✔ secrets are rejected before they can reach state or logs (10.5824ms)
+✔ losing workspace ownership halts continuation (8.2227ms)
+✔ the event log is append-only JSONL and records each lifecycle transition (19.5358ms)
+✔ a repeated blocker carries forward the user action stated on its first sighting (19.4679ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 514.7466
+v24.19.0

@@ -1,0 +1,172 @@
+CODEX_HOME=/tmp/tmp.feVyRPt71e (isolated)
+
+$ persist install --dry-run
+DRY RUN - nothing written
+  hooks.json : append (C:\Users\Trenton\AppData\Local\Temp\tmp.feVyRPt71e\hooks.json)
+  config.toml: append (C:\Users\Trenton\AppData\Local\Temp\tmp.feVyRPt71e\config.toml)
+   -> exit 0
+
+$ persist install
+Installed
+  hooks.json : append (C:\Users\Trenton\AppData\Local\Temp\tmp.feVyRPt71e\hooks.json)
+  config.toml: append (C:\Users\Trenton\AppData\Local\Temp\tmp.feVyRPt71e\config.toml)
+  backups    : C:\Users\Trenton\AppData\Local\Temp\tmp.feVyRPt71e\persistent\backups\hooks.json.orig, C:\Users\Trenton\AppData\Local\Temp\tmp.feVyRPt71e\persistent\backups\config.toml.orig
+   -> exit 0
+
+--- user's config.toml after install (original bytes are a prefix) ---
+# user comment
+[model]
+name = "gpt-5"
+
+# >>> codex-persistent-mode (managed block) >>>
+# Added by codex-persistent-mode install. Remove with `persist uninstall`.
+# This block adds no permissions and changes no sandbox or approval setting.
+[persistent_mode]
+enabled = true
+state_dir = "persistent"
+# <<< codex-persistent-mode (managed block) <<<
+
+--- hooks.json after install ---
+{
+  "hooks": [
+    {
+      "id": "user-notify",
+      "event": "Stop",
+      "command": [
+        "true"
+      ]
+    },
+    {
+      "id": "codex-persistent-mode",
+      "event": "Stop",
+      "description": "Ask Persistent mode whether the activated objective authorizes another cycle.",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Users\\Trenton\\Mission Control\\Marketplace_Doer\\work\\codex-persistent\\bin\\persist.js",
+        "should-continue",
+        "--json"
+      ],
+      "timeoutMs": 10000
+    }
+  ]
+}
+
+$ persist start --objective Make the failing integration suite green --workspace /tmp/tmp.HMqusHK5Bj --completion-test npm test exits 0 with zero skipped integration tests --max-cycles 4
+Persistent mode ACTIVE
+  run       : 23752816-83c1-47b6-b028-840740155e43
+  objective : Make the failing integration suite green
+  workspace : C:\Users\Trenton\AppData\Local\Temp\tmp.HMqusHK5Bj
+  done when : npm test exits 0 with zero skipped integration tests
+  cap       : 4 cycles
+   -> exit 0
+
+$ persist status
+run        : 23752816-83c1-47b6-b028-840740155e43
+state      : awake (awake)
+objective  : Make the failing integration suite green
+workspace  : C:\Users\Trenton\AppData\Local\Temp\tmp.HMqusHK5Bj
+done when  : npm test exits 0 with zero skipped integration tests
+cycles     : 0/4
+queue      : (empty)
+evidence   : (none)
+blocker    : (none)
+next action: verify: npm test exits 0 with zero skipped integration tests
+   -> exit 0
+
+$ persist should-continue
+CONTINUE - objective incomplete, authorized, and within cycle cap
+   -> exit 0
+
+$ persist enqueue repair the flaky auth spec
+queued (1 item(s))
+   -> exit 0
+
+$ persist cycle
+cycle 1/4 - awake
+   -> exit 0
+
+$ persist sleep --reason user stepping away
+Asleep. State preserved; wake resumes the same contract.
+   -> exit 0
+
+$ persist should-continue
+DO NOT CONTINUE - asleep
+   -> exit 3
+
+$ persist wake
+Awake on: Make the failing integration suite green
+   -> exit 0
+
+$ persist blocker --summary staging DB credentials rejected (401) --action rotate STAGING_DB_URL, then tell me
+blocker recorded (x1)
+   -> exit 0
+
+$ persist blocker --summary staging DB credentials rejected (401)
+blocker recorded (x2)
+   -> exit 0
+
+$ persist blocker --summary staging DB credentials rejected (401)
+blocker recorded (x3)
+Same blocker 3 cycles running: advancing stopped, user action needed:
+  rotate STAGING_DB_URL, then tell me
+   -> exit 0
+
+$ persist should-continue
+DO NOT CONTINUE - blocked: staging DB credentials rejected (401)
+   -> exit 3
+
+$ persist wake
+[BLOCKED] Blocked on: staging DB credentials rejected (401). Waking would not change the blocker. Resolve it and clear it with unblock, which is an explicit user act.
+   -> exit 1
+
+$ persist unblock --note credentials rotated
+Blocker cleared by user; awake.
+   -> exit 0
+
+$ persist complete --evidence npm test -> 41 passing, 0 skipped
+Completion verified and recorded. The loop is released.
+   -> exit 0
+
+$ persist should-continue
+DO NOT CONTINUE - run is completed
+   -> exit 3
+
+$ persist wake
+[TERMINAL] Run is completed and cannot be woken. Start a new run explicitly.
+   -> exit 1
+
+$ persist stop
+Stopped permanently. Heartbeats will not revive this run.
+   -> exit 0
+
+$ persist start --objective second run --workspace /tmp/tmp.HMqusHK5Bj --completion-test x
+[STOPPED_TOMBSTONE] A previous run was stopped at 2026-08-27T20:52:41.248Z. Starting again is an explicit user act: re-run with --force to confirm.
+   -> exit 1
+
+$ persist uninstall
+Uninstalled
+  hooks.json : entry removed, rest preserved
+  config.toml: restored from baseline (byte-identical)
+  state      : removed
+   -> exit 0
+
+--- config.toml after uninstall ---
+# user comment
+[model]
+name = "gpt-5"
+
+config.toml baseline sha: a4329c01e183e1b6167e81359d084524adeed25a456f2be56eb6afe85623bfaa
+config.toml after    sha: a4329c01e183e1b6167e81359d084524adeed25a456f2be56eb6afe85623bfaa
+BYTE-IDENTICAL: yes
+--- hooks.json after uninstall ---
+{
+  "hooks": [
+    {
+      "id": "user-notify",
+      "event": "Stop",
+      "command": [
+        "true"
+      ]
+    }
+  ]
+}
