@@ -4,14 +4,26 @@
 global Persistent mode for Codex, with 33 automated tests and a reproducible
 end-to-end transcript, both actually run and captured here. Not a design doc.
 
-**Attached:** `codex-persistent-mode-v1.0.0.zip` — complete source, tests, docs,
-and evidence. No public repository URL is provided, so the archive is the
-authoritative artifact and cannot change after submission.
+**Repository:** https://github.com/TrentonNewWorld/codex-persistent-mode
+(public, MIT). The exact submitted tree is the immutable tag `v1.0.1`, commit
+`2079bc34497cf6536338df8a8b24253159d4ec6d`:
+https://github.com/TrentonNewWorld/codex-persistent-mode/tree/v1.0.1
+
+**Attached:** `codex-persistent-mode-v1.0.1.zip` — the same tree, complete with
+source, tests, docs and evidence. Because `main` could move after submission,
+the archive and the `v1.0.1` tag are the authoritative artifacts; review either.
+
+**On CI:** `ci/github-actions-tests.yml` is a ready GitHub Actions matrix
+(ubuntu-latest + macos-latest) that runs the 33 tests, the end-to-end transcript,
+the zero-dependency assertion and the no-network assertion. It is deliberately
+*not* installed as a live workflow: the token used to publish this repository
+lacks the `workflow` OAuth scope, so no green CI run exists and none is claimed.
+Copy it to `.github/workflows/` in your own fork to reproduce independently.
 
 Run everything with no install and no dependencies:
 
 ```bash
-unzip codex-persistent-mode-v1.0.0.zip && cd codex-persistent
+unzip codex-persistent-mode-v1.0.1.zip && cd codex-persistent
 node --test "test/**/*.test.js"    # 33 tests, ~0.6s
 bash test/e2e-transcript.sh        # full lifecycle against a temp CODEX_HOME
 ```
