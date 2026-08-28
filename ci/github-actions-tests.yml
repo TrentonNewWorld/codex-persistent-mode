@@ -1,0 +1,36 @@
+# Ready-to-use CI for this package. Not installed as a live workflow here:
+# the account token used to publish the repository lacks the `workflow` OAuth
+# scope, so no green CI run is claimed. Copy this file to
+# .github/workflows/tests.yml in your own fork to run the suite on
+# ubuntu-latest and macos-latest.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  suite:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assert zero dependencies
+        run: test "$(node -p "Object.keys(require('./package.json').dependencies||{}).length")" = "0"
+      - name: Unit + integration suite
+        run: node --test "test/**/*.test.js"
+      - name: End-to-end lifecycle against an isolated CODEX_HOME
+        run: bash test/e2e-transcript.sh
+      - name: Assert no network calls, no telemetry
+        run: |
+          if grep -rnE "https?://|fetch\(|node:http|node:net|child_process" src/ bin/; then
+            echo "network/telemetry call site found"; exit 1
+          fi
+          echo "no network or telemetry call sites in src/ or bin/"
