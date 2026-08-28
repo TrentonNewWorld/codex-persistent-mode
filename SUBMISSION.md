@@ -5,8 +5,7 @@ global Persistent mode for Codex, with 33 automated tests and a reproducible
 end-to-end transcript, both actually run and captured here. Not a design doc.
 
 **Repository:** https://github.com/TrentonNewWorld/codex-persistent-mode
-(public, MIT). The exact submitted tree is the immutable tag `v1.0.1`, commit
-`2ccd682b8edd15c39a060bcd8ad5c9ffa2479a44`:
+(public, MIT). The exact submitted tree is the tag `v1.0.1`:
 https://github.com/TrentonNewWorld/codex-persistent-mode/tree/v1.0.1
 
 **Attached:** `codex-persistent-mode-v1.0.1.zip` — the same tree, complete with
